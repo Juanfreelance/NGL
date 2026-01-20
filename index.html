@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGL - Kelas X Pemasaran 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .admin-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .admin-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .admin-link a:hover {
+            color: #764ba2;
+        }
+
+        .messages-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .message-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            animation: fadeIn 0.5s ease-out;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .message-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message-card p {
+            color: #333;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .message-card small {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .delete-btn, .expand-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .expand-btn {
+            background: #3498db;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .expand-btn:hover {
+            background: #2980b9;
+        }
+
+        .success-message {
+            background: #2ecc71;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .logout-btn, .refresh-btn {
+            background: #e74c3c;
+            margin-top: 10px;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .refresh-btn {
+            background: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .refresh-btn:hover {
+            background: #2980b9;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .emoji {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            max-width: 600px;
+            width: 90%;
+            border-radius: 20px;
+            overflow: hidden;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-message {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            margin-bottom: 20px;
+        }
+
+        .modal-message p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .modal-message small {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            padding: 0 30px 30px 30px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .close-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .screenshot-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .screenshot-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #856404;
+        }
+
+        .code-box {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 8px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container" id="mainPage">
+        <div class="header">
+            <div class="emoji">💬</div>
+            <h1>NGL Anonymous</h1>
+            <p>Kelas X Pemasaran 1</p>
+        </div>
+
+        <div id="successMsg" class="success-message hidden">
+            ✅ Pesan berhasil dikirim!
+        </div>
+
+        <form id="messageForm">
+            <div class="form-group">
+                <label>Pesan Anonymous</label>
+                <textarea id="messageText" placeholder="Tulis pesan anonymous kamu di sini..." required></textarea>
+            </div>
+            <button type="submit" class="btn">Kirim Pesan</button>
+        </form>
+
+        <div class="admin-link">
+            <a href="#" id="adminLoginLink">🔐 Login Admin</a>
+        </div>
+    </div>
+
+    <div class="container hidden" id="loginPage">
+        <div class="header">
+            <div class="emoji">🔐</div>
+            <h1>Login Admin</h1>
+            <p>Masukkan kredensial admin</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Masukkan username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Masukkan password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <div class="admin-link">
+            <a href="#" id="backToMain">← Kembali</a>
+        </div>
+    </div>
+
+    <div class="container hidden" id="adminPage">
+        <div class="header">
+            <div class="emoji">📊</div>
+            <h1>Dashboard Admin</h1>
+            <p>Kelola pesan anonymous</p>
+        </div>
+
+        <div class="info-box" id="setupInfo">
+            <strong>⚙️ Cara Setup untuk Multi-Device:</strong>
+            1. Salin kode HTML ini<br>
+            2. Hosting di layanan gratis seperti:<br>
+            - <a href="https://netlify.com" target="_blank">Netlify.com</a><br>
+            - <a href="https://vercel.com" target="_blank">Vercel.com</a><br>
+            - <a href="https://pages.github.com" target="_blank">GitHub Pages</a><br>
+            3. Bagikan link ke teman-teman<br>
+            4. Pesan akan tersinkronisasi otomatis!
+        </div>
+
+        <div class="stats">
+            📨 Total Pesan: <span id="messageCount">0</span>
+        </div>
+
+        <button class="btn refresh-btn" id="refreshBtn">🔄 Refresh Pesan</button>
+
+        <div class="messages-container" id="messagesContainer">
+            <!-- Messages will be displayed here -->
+        </div>
+
+        <button class="btn logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📸 Screenshot Pesan</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-message" id="modalMessageContent">
+                    <!-- Message content will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn close-btn" id="closeModal">Tutup</button>
+                <button class="modal-btn screenshot-btn" id="screenshotBtn">📸 Screenshot</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Firebase-like configuration (ganti dengan Firebase/Backend asli untuk produksi)
+        const DB_ENDPOINT = 'https://api.jsonbin.io/v3/b/YOUR_BIN_ID'; // Ganti dengan JSONBin ID
+        const API_KEY = '$2a$10$YOUR_API_KEY'; // Ganti dengan JSONBin API Key
+
+        // Admin credentials
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'pemasaran123';
+
+        // Storage key for localStorage fallback
+        const STORAGE_KEY = 'ngl_messages_pemasaran1';
+
+        // Check if we have API configured
+        const hasAPI = DB_ENDPOINT.includes('YOUR_BIN_ID') === false;
+
+        let messages = [];
+        let isAdmin = false;
+
+        // Page elements
+        const mainPage = document.getElementById('mainPage');
+        const loginPage = document.getElementById('loginPage');
+        const adminPage = document.getElementById('adminPage');
+        const messageForm = document.getElementById('messageForm');
+        const loginForm = document.getElementById('loginForm');
+        const successMsg = document.getElementById('successMsg');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageModal = document.getElementById('messageModal');
+        const modalMessageContent = document.getElementById('modalMessageContent');
+        const messageCountEl = document.getElementById('messageCount');
+
+        // Load messages
+        async function loadMessages() {
+            try {
+                if (hasAPI) {
+                    // Gunakan API eksternal (JSONBin, Firebase, dll)
+                    const response = await fetch(DB_ENDPOINT + '/latest', {
+                        headers: {
+                            'X-Master-Key': API_KEY
+                        }
+                    });
+                    const data = await response.json();
+                    messages = data.record || [];
+                } else {
+                    // Fallback ke localStorage
+                    const stored = localStorage.getItem(STORAGE_KEY);
+                    messages = stored ? JSON.parse(stored) : [];
+                }
+            } catch (error) {
+                console.log('Using localStorage');
+                const stored = localStorage.getItem(STORAGE_KEY);
+                messages = stored ? JSON.parse(stored) : [];
+            }
+        }
+
+        // Save messages
+        async function saveMessages() {
+            try {
+                if (hasAPI) {
+                    // Simpan ke API eksternal
+                    await fetch(DB_ENDPOINT, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Master-Key': API_KEY
+                        },
+                        body: JSON.stringify(messages)
+                    });
+                } else {
+                    // Simpan ke localStorage
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+                }
+            } catch (error) {
+                console.log('Saving to localStorage');
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+            }
+        }
+
+        // Navigation
+        document.getElementById('adminLoginLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            mainPage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+        });
+
+        document.getElementById('backToMain').addEventListener('click', (e) => {
+            e.preventDefault();
+            loginPage.classList.add('hidden');
+            mainPage.classList.remove('hidden');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            isAdmin = false;
+            adminPage.classList.add('hidden');
+            mainPage.classList.remove('hidden');
+        });
+
+        // Submit message
+        messageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const messageText = document.getElementById('messageText').value;
+            
+            const message = {
+                id: Date.now(),
+                text: messageText,
+                timestamp: new Date().toLocaleString('id-ID')
+            };
+            
+            messages.unshift(message);
+            await saveMessages();
+            
+            successMsg.classList.remove('hidden');
+            setTimeout(() => {
+                successMsg.classList.add('hidden');
+            }, 3000);
+            
+            messageForm.reset();
+        });
+
+        // Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                loginPage.classList.add('hidden');
+                adminPage.classList.remove('hidden');
+                
+                await loadMessages();
+                displayMessages();
+                loginForm.reset();
+            } else {
+                alert('Username atau password salah!');
+            }
+        });
+
+        // Refresh messages
+        document.getElementById('refreshBtn').addEventListener('click', async () => {
+            await loadMessages();
+            displayMessages();
+            
+            const btn = document.getElementById('refreshBtn');
+            btn.textContent = '✅ Berhasil di-refresh!';
+            setTimeout(() => {
+                btn.textContent = '🔄 Refresh Pesan';
+            }, 2000);
+        });
+
+        // Display messages
+        function displayMessages() {
+            messagesContainer.innerHTML = '';
+            messageCountEl.textContent = messages.length;
+            
+            if (messages.length === 0) {
+                messagesContainer.innerHTML = '<p style="text-align: center; color: #999;">Belum ada pesan.</p>';
+                return;
+            }
+            
+            messages.forEach(message => {
+                const messageCard = document.createElement('div');
+                messageCard.className = 'message-card';
+                messageCard.innerHTML = `
+                    <p>${message.text}</p>
+                    <small>${message.timestamp}</small>
+                    <div class="message-actions">
+                        <button class="expand-btn" onclick="expandMessage(${message.id})">📸 Screenshot</button>
+                        <button class="delete-btn" onclick="deleteMessage(${message.id})">🗑️ Hapus</button>
+                    </div>
+                `;
+                messagesContainer.appendChild(messageCard);
+            });
+        }
+
+        // Expand message
+        function expandMessage(id) {
+            const message = messages.find(msg => msg.id === id);
+            if (!message) return;
+            
+            modalMessageContent.innerHTML = `
+                <p>${message.text}</p>
+                <small>📅 ${message.timestamp}</small>
+            `;
+            
+            messageModal.style.display = 'block';
+        }
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            messageModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === messageModal) {
+                messageModal.style.display = 'none';
+            }
+        });
+
+        // Screenshot
+        document.getElementById('screenshotBtn').addEventListener('click', () => {
+            alert('📸 Silakan gunakan screenshot bawaan HP Anda!\n\nTips:\n- Android: Power + Volume Down\n- iPhone: Side + Volume Up');
+        });
+
+        // Delete message
+        async function deleteMessage(id) {
+            if (confirm('Yakin ingin menghapus pesan ini?')) {
+                messages = messages.filter(msg => msg.id !== id);
+                await saveMessages();
+                displayMessages();
+            }
+        }
+
+        window.deleteMessage = deleteMessage;
+        window.expandMessage = expandMessage;
+
+        // Initial load
+        loadMessages();
+    </script>
+</body>
+</html>
